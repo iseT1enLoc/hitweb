@@ -1,2 +1,3 @@
 go get -u gorm.io/gorm
 go get github.com/google/uuid
+go get -u github.com/golang-jwt/jwt/v5

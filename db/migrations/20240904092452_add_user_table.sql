@@ -1,7 +1,7 @@
 -- +goose Up
 CREATE TABLE USERS(
-    Id VARCHAR(40) PRIMARY KEY,
-    user_name VARCHAR(50) NOT NULL,
+    id VARCHAR(40) PRIMARY KEY,
+    user_name VARCHAR(50),
     user_email VARCHAR(60),
     pass_word VARCHAR(100)
 );

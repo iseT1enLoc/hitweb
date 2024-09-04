@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go_practice.com/api/middleware"
+	"go_practice.com/api/route"
 	"go_practice.com/component/appconfig"
 	"go_practice.com/component/appcontext"
 	"go_practice.com/infras/postgres"
@@ -28,6 +29,7 @@ func main() {
 	r := gin.Default()
 	r.Use(middleware.CORS())
 	r.Use(middleware.Recover(cfg))
+	route.SetUp(appcfg, 3600, db, r)
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Successfully set up"})
 	})

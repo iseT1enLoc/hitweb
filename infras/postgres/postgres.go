@@ -24,13 +24,16 @@ func ConnectToDatabasein20s(appcfg *appconfig.Env) (*gorm.DB, error) {
 	deadline := time.Now().Add(timeTry)
 	var db *gorm.DB
 	var err error
+
 	for time.Now().Before(deadline) {
 		log.Println("CONNECT to database.....")
 		db, err = connectingDatabase(appcfg)
 		if err == nil {
+			fmt.Printf("Database name: %v", db.Name())
 			return db, nil
 		}
 		time.Sleep(time.Second)
 	}
+
 	return nil, fmt.Errorf("Error while connecting to database...[error]: %v", err)
 }
