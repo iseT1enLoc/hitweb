@@ -1,0 +1,16 @@
+-- +goose Up
+CREATE TABLE USERS(
+    Id VARCHAR(40) PRIMARY KEY,
+    user_name VARCHAR(50) NOT NULL,
+    user_email VARCHAR(60),
+    pass_word VARCHAR(100)
+);
+-- +goose StatementBegin
+
+-- +goose StatementEnd
+
+-- +goose Down
+DROP TABLE USERS;
+-- +goose StatementBegin
+SELECT 'down SQL query';
+-- +goose StatementEnd
