@@ -14,8 +14,27 @@ type signupUsecase struct {
 	timeout  time.Duration
 }
 
+// CreateAcessToken implements domain.ISignUpUseCase.
+func (s *signupUsecase) CreateAcessToken(expirationHour int, secretKey string, user domain.User) (accesstoken string, err error) {
+	return jwtutils.CreateAcessToken(expirationHour, secretKey, user)
+}
+
+// CreateRefreshToken implements domain.ISignUpUseCase.
+func (s *signupUsecase) CreateRefreshToken(expirationHour int, secretKey string, user domain.User) (refreshtoken string, err error) {
+	return jwtutils.CreateRefreshToken(expirationHour, secretKey, user)
+}
+
+// GetUserByEmail implements domain.ISignUpUseCase.
+func (s *signupUsecase) GetUserByEmail(email string) error {
+	_, err := s.userRepo.GetUserByEmail(email)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // SignUp implements domain.ISignUpUseCase.
-func (s signupUsecase) SignUp(signupReq domain.SignUpReq) (username string, err error) {
+func (s signupUsecase) SignUp(signupReq domain.SignUpReq) (insertedUser domain.User, err error) {
 	encryptedPassword, err := jwtutils.HashPassword(signupReq.Password)
 	if err != nil {
 		log.Error(err)
@@ -27,12 +46,12 @@ func (s signupUsecase) SignUp(signupReq domain.SignUpReq) (username string, err 
 		UserEmail: signupReq.UserEmail,
 		Password:  encryptedPassword,
 	}
-	_, err = s.userRepo.InsertUserToDatabase(user)
+	iuser, err := s.userRepo.InsertUserToDatabase(user)
 	if err != nil {
 		log.Error(err)
 		return
 	}
-	return user.UserName, nil
+	return iuser, nil
 
 }
 

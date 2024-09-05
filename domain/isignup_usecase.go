@@ -7,5 +7,8 @@ type SignUpReq struct {
 }
 
 type ISignUpUseCase interface {
-	SignUp(signupReq SignUpReq) (username string, err error)
+	SignUp(signupReq SignUpReq) (user User, err error)
+	GetUserByEmail(email string) error
+	CreateAcessToken(expirationHour int, secretKey string, user User) (accesstoken string, err error)
+	CreateRefreshToken(expirationHour int, secretKey string, user User) (refreshtoken string, err error)
 }

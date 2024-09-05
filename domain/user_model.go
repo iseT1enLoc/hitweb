@@ -12,7 +12,7 @@ func (User) TableName() string {
 }
 
 type IUserRepository interface {
-	InsertUserToDatabase(user User) (RowsAffected int, err error)
+	InsertUserToDatabase(user User) (insertedUser User, err error)
 	GetUserByEmail(user_email string) (userId string, err error)
 	GetAllUsers() (users []User, err error)
 }

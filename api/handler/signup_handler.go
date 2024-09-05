@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,12 +23,28 @@ func (sh *SignUpHandler) SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
 			return
 		}
-
-		username, err := sh.SignUpusecase.SignUp(signupReq)
+		err = sh.SignUpusecase.GetUserByEmail(signupReq.UserEmail)
+		if err == nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Email has already existed in DB"})
+			return
+		}
+		user, err := sh.SignUpusecase.SignUp(signupReq)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"user": username})
+		accesstoken, err := sh.SignUpusecase.CreateAcessToken(1, os.Getenv("SECRET_KEY"), user)
+		if err != nil {
+			log.Fatalf("Fail to create access token at user handler [error]-%v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
+			return
+		}
+		refreshtoken, err := sh.SignUpusecase.CreateRefreshToken(1, os.Getenv("SECRET_KEY"), user)
+		if err != nil {
+			log.Fatalf("fail tp create refresh token [error]-%v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"access_token": accesstoken, "refresh_token": refreshtoken})
 	}
 }
