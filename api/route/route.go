@@ -15,4 +15,5 @@ func SetUp(env *appconfig.Env, timeout time.Duration, db *gorm.DB, r *gin.Engine
 	protectedRoute := r.Group("api/protected/")
 	NewSignUpRoute(env, timeout, db, publicRoute)
 	protectedRoute.Use(middleware.JwtAuthMiddleware(os.Getenv("SECRET_KEY")))
+	NewResourceRoute(env, timeout, db, protectedRoute)
 }

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -29,6 +30,7 @@ func (sh *SignUpHandler) SignUp() gin.HandlerFunc {
 			return
 		}
 		user, err := sh.SignUpusecase.SignUp(signupReq)
+		fmt.Printf("User ID: %s", user.Id)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
 			return

@@ -11,7 +11,7 @@ import (
 func CreateAcessToken(expirationHour int, secretKey string, user domain.User) (accessToken string, err error) {
 	exp := time.Now().Add(time.Duration(expirationHour) * time.Hour)
 	customClaim := domain.CustomAccessToken{
-		Id:               user.Id,
+		Id:               "Hello",
 		User_name:        user.UserName,
 		RegisteredClaims: jwt.RegisteredClaims{ExpiresAt: &jwt.NumericDate{exp}},
 	}
@@ -20,7 +20,7 @@ func CreateAcessToken(expirationHour int, secretKey string, user domain.User) (a
 	signString, err := token.SignedString([]byte(secretKey))
 	if err != nil {
 		//log.Fatalf("Access: Error happened while create signString [error]-%v", signString)
-		log.Print("Error happened while creating refresh sign string")
+		log.Print("Error happened while creating access sign string")
 		return "", err
 	}
 	return signString, nil
