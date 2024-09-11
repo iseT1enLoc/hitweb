@@ -42,7 +42,8 @@ func (u userRepository) InsertUserToDatabase(user domain.User) (iuser domain.Use
 		log.Fatalf("Error at user repository [error]: %v", inserted_user.Error)
 		return
 	}
-	return iuser, nil
+
+	return user, nil
 }
 
 func NewUserRepository(db *gorm.DB, timeout time.Duration) domain.IUserRepository {
