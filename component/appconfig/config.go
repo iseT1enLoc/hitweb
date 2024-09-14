@@ -1,17 +1,14 @@
 package appconfig
 
 import (
-	"log"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 func LoadConfig() (*Env, error) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error happened while loading environment...%v", err)
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatalf("Error happened while loading environment...%v", err)
+	// }
 	return &Env{
 		DB_HOST:             os.Getenv("DB_HOST"),
 		DB_USER:             os.Getenv("DB_USER"),
