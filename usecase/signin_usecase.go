@@ -26,7 +26,7 @@ func (s *signInUsecase) CreateRefreshToken(expirationHour int, secretKey string,
 func (s *signInUsecase) GetUserByEmail(email string) (domain.User, error) {
 	desiredUser, err := s.UserRepository.GetUserByEmail(email)
 	if err != nil {
-		return desiredUser, err
+		return domain.User{}, err
 	}
 	return desiredUser, nil
 }

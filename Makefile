@@ -1,4 +1,3 @@
-
 up:
 	@GOOSE_DRIVER=postgres GOOSE_DBSTRING=${dsn} goose -dir=${migrationDir} up
 down:

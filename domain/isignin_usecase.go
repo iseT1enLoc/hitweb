@@ -1,7 +1,7 @@
 package domain
 
 type SignInReq struct {
-	Email    string `gorm:"column:email" json:"email"`
+	Email    string `gorm:"column:email" json:"user_email"`
 	Password string `gorm:"column:password" json:"pass_word"`
 }
 type SignInResponse struct {
