@@ -33,6 +33,6 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Successfully set up"})
 	})
-
-	r.Run("localhost:8080")
+	r.Run()
+	//r.Run("localhost:8080")
 }
