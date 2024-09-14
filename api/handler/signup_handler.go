@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	jwtutils "go_practice.com/component/jwt_utils"
 	"go_practice.com/domain"
 )
 
@@ -35,13 +36,13 @@ func (sh *SignUpHandler) SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
 			return
 		}
-		accesstoken, err := sh.SignUpusecase.CreateAcessToken(1, os.Getenv("SECRET_KEY"), user)
+		accesstoken, err := jwtutils.CreateAcessToken(1, os.Getenv("SECRET_KEY"), user)
 		if err != nil {
 			log.Fatalf("Fail to create access token at user handler [error]-%v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err})
 			return
 		}
-		refreshtoken, err := sh.SignUpusecase.CreateRefreshToken(1, os.Getenv("SECRET_KEY"), user)
+		refreshtoken, err := jwtutils.CreateRefreshToken(1, os.Getenv("SECRET_KEY"), user)
 		if err != nil {
 			log.Fatalf("fail tp create refresh token [error]-%v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"message": err})

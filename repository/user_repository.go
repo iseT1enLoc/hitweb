@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"log"
 	"time"
 
@@ -9,14 +10,15 @@ import (
 )
 
 type userRepository struct {
-	db      *gorm.DB
+	db      *sql.DB
 	timeout time.Duration
 }
 
 // GetAllUsers implements domain.IUserRepository.
 func (u userRepository) GetAllUsers() (users []domain.User, err error) {
 	var listusers []domain.User
-	result := u.db.Find(&listusers)
+	query := `SELECT * FROM USERS;`
+	result, err := u.db.Exec(query)
 	if result.Error != nil {
 		log.Fatalf("Error happened while retrieving all records from database, [error]-%v", result.Error)
 		return nil, result.Error
@@ -25,14 +27,14 @@ func (u userRepository) GetAllUsers() (users []domain.User, err error) {
 }
 
 // GetUserByEmail implements domain.IUserRepository.
-func (u userRepository) GetUserByEmail(user_email string) (userId string, err error) {
+func (u userRepository) GetUserByEmail(user_email string) (userId domain.User, err error) {
 	var desireduser domain.User
 	result := u.db.Where("user_email = ?", user_email).First(&desireduser)
 	if result.Error != nil {
 		//log.Fatalf("There is no user with that email %v, [error]- %v", user_email, result.Error)
-		return "", result.Error
+		return desireduser, result.Error
 	}
-	return desireduser.Id, nil
+	return desireduser, nil
 }
 
 // InsertUserToDatabase implements domain.IUserRepository.

@@ -15,9 +15,8 @@ func Is_authorized(requestToken string, secretkey string) (bool, error) {
 		return []byte(secretkey), nil
 	})
 	if err != nil {
-		print("line 17 is authorized")
 		return false, err
 	}
-	print("Authorized...")
+
 	return true, nil
 }
